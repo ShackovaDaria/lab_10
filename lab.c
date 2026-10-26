@@ -57,9 +57,18 @@ printf("\n--- Задание 2 ---\n");
 
     printf("Введите n: ");
     scanf("%d", &n);
+    if (n < 1) {
+        printf("Ошибка: n должно быть >= 1\n");
+        return 1;
+    }
+
     printf("Введите eps: ");
     scanf("%lf", &eps);
-
+ if (eps <= 0) {
+        printf("Ошибка: eps должно быть > 0\n");
+        return 1;
+    }
+    
     double std_val = asin(x);
     printf("\nЭталон asin(%.4lf) = %.7lf\n", x, std_val);
 
