@@ -27,41 +27,58 @@
 - `int compare(float a1, float h1, float a2, float h2)`: сравнивает площади двух треугольников и возвращает 1 (если первый больше), -1 (если второй больше) или 0 (если равны). *(Добавлено для соответствия заданию)*.
 
 ### Блок-схема
-схему добавлю, сайт пока не работает
+<img width="1115" height="1924" alt="дз10 drawio" src="https://github.com/user-attachments/assets/7b3575dd-91b6-46b4-b52c-c3d9546c5d94" />
+
 
 ## 2. Реализация программы
 
 ```c
 #include <stdio.h>
+#include <locale.h>
 
 float area(float a, float h);
-void draw(int h, char sim);
-float get_h();
-float get_a();
+char get_sim(int i, int j, int h, char sim); 
 int compare(float a1, float h1, float a2, float h2);
 
 int main() {
     int choice;
     char sim;
-    
+    float h, a;
+    setlocale(LC_ALL, ".UTF8");
+
     printf("--- дз ---\n");
     printf("1. площадь\n2. определение\n3. нарисовать\n");
     printf("выберите число от 1 до 3: ");
     scanf("%d", &choice);
 
     if (choice == 1) {
-        float h = get_h();
-        float a = get_a();
-        printf("Площадь: %.2f\n", area(a, h));
+        printf("введите высоту h: ");
+        scanf("%f", &h);
+        printf("введите основание a: ");
+        scanf("%f", &a);
+        
+        if (h <= 0 || a <= 0) {
+            printf("Ошибка: размеры должны быть положительными\n");
+        } else {
+            printf("Площадь: %.2f\n", area(a, h));
+        }
     } 
     else if (choice == 2) {
         printf("Равнобедренный треугольник — это треугольник, у которого две стороны равны.\n");
         printf("Углы при основании у него также равны.\n");
     } 
     else if (choice == 3) {
+        printf("введите высоту h: ");
+        scanf("%f", &h);
         printf("введите символ: ");
         scanf(" %c", &sim);
-        draw((int)get_h(), sim);
+        
+        for (int i = 1; i <= (int)h; i++) {
+            for (int j = 0; j < 2 * i - 1; j++) {
+                printf("%c", get_sim(i, j, (int)h, sim));
+            }
+            printf("\n");
+        }
     } 
     else {
         printf("неверный выбор.\n");
@@ -70,43 +87,18 @@ int main() {
     return 0;
 }
 
-float get_h() {
-    float h;
-    printf("введите высоту h: ");
-    scanf("%f", &h);
-    return h;
-}
-
-float get_a() {
-    float a;
-    printf("введите основание a: ");
-    scanf("%f", &a);
-    return a;
-}
-
 float area(float a, float h) {
     return 0.5f * a * h;
 }
 
-void draw(int h, char sim) {
-    for (int i = 1; i <= h; i++) {
-        // Печатаем пробелы для сдвига
-        for (int j = 0; j < h - i; j++) {
-            printf(" ");
-        }
-        // Печатаем символы (только контур)
-        for (int j = 0; j < 2 * i - 1; j++) {
-            if (j == 0 || j == 2 * i - 2 || i == h) {
-                printf("%c", sim);
-            } else {
-                printf(" ");
-            }
-        }
-        printf("\n");
+char get_sim(int i, int j, int h, char sim) {
+    if (j == 0 || j == 2 * i - 2 || i == h) {
+        return sim;
+    } else {
+        return ' ';
     }
 }
 
-// Функция сравнения (дополнение по заданию)
 int compare(float a1, float h1, float a2, float h2) {
     float s1 = area(a1, h1);
     float s2 = area(a2, h2);
@@ -119,6 +111,7 @@ int compare(float a1, float h1, float a2, float h2) {
 **Пример 1 (площадь):**
 
 --- дз ---
+
 1. площадь
 2. определение
 3. нарисовать
